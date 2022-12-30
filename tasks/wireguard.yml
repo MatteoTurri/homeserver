@@ -1,0 +1,30 @@
+- name: Setup ip forwarding
+  ansible.posix.sysctl:
+    name: net.ipv4.ip_forward
+    value: "1"
+    sysctl_set: yes
+    state: present
+    reload: yes
+
+- name: Setup ip forwarding
+  ansible.posix.sysctl:
+    name: net.ipv6.conf.all.forwarding
+    value: "1"
+    sysctl_set: yes
+    state: present
+    reload: yes
+
+- name: Setup wireguard
+  ansible.builtin.import_role:
+    name: githubixx.ansible_role_wireguard
+  vars:
+    wireguard_address: 10.8.0.1/24
+    wireguard_postup:
+      - ufw route allow in on wg0 out on enp2s0
+      - iptables -t nat -I POSTROUTING -o enp2s0 -j MASQUERADE
+      - ip6tables -t nat -I POSTROUTING -o enp2s0 -j MASQUERADE
+    wireguard_postdown:
+      - ufw route delete allow in on wg0 out on enp2s0
+      - iptables -t nat -D POSTROUTING -o enp2s0 -j MASQUERADE
+      - ip6tables -t nat -D POSTROUTING -o enp2s0 -j MASQUERADE
+    wireguard_unmanaged_peers:

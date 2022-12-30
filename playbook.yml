@@ -1,0 +1,10 @@
+---
+- name: Homeserver playbook
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Ensure that ZFS is set up correctly
+      ansible.builtin.import_tasks: tasks/zfs.yml
+    - name: Setup wireguard
+      ansible.builtin.import_tasks: tasks/wireguard.yml

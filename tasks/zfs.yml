@@ -1,0 +1,13 @@
+- name: Ensure that zfsutils-linux is installed
+  ansible.builtin.apt:
+    name: zfsutils-linux
+    state: present
+
+- name: Ensure that data pool exists with correct properties
+  community.general.zfs:
+    name: data
+    state: present
+    extra_zfs_properties:
+      atime: off
+      compression: on
+      mountpoint: /mnt/data
