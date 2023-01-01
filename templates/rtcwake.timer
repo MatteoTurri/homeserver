@@ -1,0 +1,9 @@
+[Unit]
+Description=Run rtcwake everyday
+
+[Timer]
+OnCalendar=*-*-* {{ rtcwaketimer.hour }}
+Persistent=true
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,32 @@
+- name: Ensure that util-linux is installed
+  ansible.builtin.apt:
+    name: util-linux
+    state: present
+
+- name: Install rtcwake service
+  ansible.builtin.template:
+    src: templates/rtcwake.service
+    dest: /lib/systemd/system/rtcwake.service
+    owner: root
+    group: root
+    mode: "0644"
+  vars:
+    rtcwake:
+      date: "+10hours30min"
+
+- name: Install rtcwake timer
+  ansible.builtin.template:
+    src: templates/rtcwake.timer
+    dest: /lib/systemd/system/rtcwake.timer
+    owner: root
+    group: root
+    mode: "0644"
+  vars:
+    rtcwaketimer:
+      hour: "21:30:00"
+
+- name: Enable and start rtcwake timer
+  ansible.builtin.systemd:
+    name: rtcwake.timer
+    enabled: true
+    state: started

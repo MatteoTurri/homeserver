@@ -1,0 +1,6 @@
+[Unit]
+Description=Shutdown the system with rtcwake and wake it at the specified time
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/rtcwake -m off --date {{ rtcwake.date }}
