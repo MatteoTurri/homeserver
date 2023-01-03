@@ -9,5 +9,6 @@
     state: present
     extra_zfs_properties:
       atime: off
-      compression: on
+      compression: lz4
+      xattr: sa
       mountpoint: /mnt/data
