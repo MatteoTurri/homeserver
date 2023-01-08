@@ -1,0 +1,13 @@
+- name: Setup wireguard
+  ansible.builtin.import_role:
+    name: geerlingguy.nfs
+  vars:
+    nfs_exports:
+      [
+        "/mnt/data/Backups    *(rw,sync,all_squash,anonuid=1000,anongid=1000)",
+        "/mnt/data/Documents    *(rw,sync,all_squash,anonuid=1000,anongid=1000)",
+        "/mnt/data/Downloads    *(rw,sync,all_squash,anonuid=1000,anongid=1000)",
+        "/mnt/data/Music    *(rw,sync,all_squash,anonuid=1000,anongid=1000)",
+        "/mnt/data/Pictures    *(rw,sync,all_squash,anonuid=1000,anongid=1000)",
+        "/mnt/data/Videos    *(rw,sync,all_squash,anonuid=1000,anongid=1000)",
+      ]
