@@ -18,21 +18,21 @@
   ansible.builtin.import_role:
     name: githubixx.ansible_role_wireguard
   vars:
-    wireguard_address: "{{ wireguard.addr_v4 }}, {{ wireguard.addr_v6 }}"
+    wireguard_address: "{{ address_ipv4 }}, {{ address_ipv6 }}"
     wireguard_port: 51820
     wireguard_postup:
-      - iptables -t nat -A POSTROUTING -s "{{ wireguard.addr_r_v4 }}" ! -d "{{ wireguard.addr_r_v4 }}" -j SNAT --to "{{ wireguard.lan_addr_v4 }}"
+      - iptables -t nat -A POSTROUTING -s "{{ address_range_ipv4 }}" ! -d "{{ address_range_ipv4 }}" -j SNAT --to "{{ lan_address_v4 }}"
       - iptables -I INPUT -p udp --dport "{{ wireguard_port }}" -j ACCEPT
-      - iptables -I FORWARD -s "{{ wireguard.addr_r_v4 }}" -j ACCEPT
+      - iptables -I FORWARD -s "{{ address_range_ipv4 }}" -j ACCEPT
       - iptables -I FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
-      - ip6tables -t nat -A POSTROUTING -s "{{ wireguard.addr_r_v6 }}" ! -d "{{ wireguard.addr_r_v6 }}" -j SNAT --to "{{ wireguard.lan_addr_v6 }}"
-      - ip6tables -I FORWARD -s "{{ wireguard.addr_r_v6 }}" -j ACCEPT
+      - ip6tables -t nat -A POSTROUTING -s "{{ address_range_ipv6 }}" ! -d "{{ address_range_ipv6 }}" -j SNAT --to "{{ lan_address_v6 }}"
+      - ip6tables -I FORWARD -s "{{ address_range_ipv6 }}" -j ACCEPT
       - ip6tables -I FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
     wireguard_postdown:
-      - iptables -t nat -D POSTROUTING -s "{{ wireguard.addr_r_v4 }}" ! -d "{{ wireguard.addr_r_v4 }}" -j SNAT --to "{{ wireguard.lan_addr_v4 }}"
+      - iptables -t nat -D POSTROUTING -s "{{ address_range_ipv4 }}" ! -d "{{ address_range_ipv4 }}" -j SNAT --to "{{ lan_address_v4 }}"
       - iptables -D INPUT -p udp --dport "{{ wireguard_port }}" -j ACCEPT
-      - iptables -D FORWARD -s "{{ wireguard.addr_r_v4 }}" -j ACCEPT
+      - iptables -D FORWARD -s "{{ address_range_ipv4 }}" -j ACCEPT
       - iptables -D FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
-      - ip6tables -t nat -D POSTROUTING -s "{{ wireguard.addr_r_v6 }}" ! -d "{{ wireguard.addr_r_v6 }}" -j SNAT --to "{{ wireguard.lan_addr_v6 }}"
-      - ip6tables -D FORWARD -s "{{ wireguard.addr_r_v6 }}" -j ACCEPT
+      - ip6tables -t nat -D POSTROUTING -s "{{ address_range_ipv6 }}" ! -d "{{ address_range_ipv6 }}" -j SNAT --to "{{ lan_address_v6 }}"
+      - ip6tables -D FORWARD -s "{{ address_range_ipv6 }}" -j ACCEPT
       - ip6tables -D FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT

@@ -1,5 +1,4 @@
-wireguard:
-  addr_v4: 10.7.0.1/24
-  addr_v6: fddd:2c4:2c4:2c4::1/64
-  addr_r_v4: 10.7.0.0/24
-  addr_r_v6: fddd:2c4:2c4:2c4::/64
+address_ipv4: 10.7.0.1/24
+address_ipv6: fddd:2c4:2c4:2c4::1/64
+address_range_ipv4: 10.7.0.0/24
+address_range_ipv6: fddd:2c4:2c4:2c4::/64
