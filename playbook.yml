@@ -3,8 +3,16 @@
   hosts: all
   become: true
 
+  vars_files:
+    - vars/wireguard.yml
+    - vars/wireguard_private.yml
+
   tasks:
     - name: Ensure that ZFS is set up correctly
       ansible.builtin.import_tasks: tasks/zfs.yml
     - name: Setup wireguard
       ansible.builtin.import_tasks: tasks/wireguard.yml
+    - name: Setup rtcwake
+      ansible.builtin.import_tasks: tasks/rtcwake.yml
+    - name: Setup NFS
+      ansible.builtin.import_tasks: tasks/nfs.yml
