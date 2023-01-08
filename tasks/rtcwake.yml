@@ -5,7 +5,7 @@
 
 - name: Install rtcwake service
   ansible.builtin.template:
-    src: templates/rtcwake.service
+    src: templates/rtcwake.service.jinja
     dest: /etc/systemd/system/rtcwake.service
     owner: root
     group: root
@@ -16,7 +16,7 @@
 
 - name: Install rtcwake timer
   ansible.builtin.template:
-    src: templates/rtcwake.timer
+    src: templates/rtcwake.timer.jinja
     dest: /etc/systemd/system/rtcwake.timer
     owner: root
     group: root
