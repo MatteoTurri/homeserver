@@ -16,3 +16,5 @@
       ansible.builtin.import_tasks: tasks/rtcwake.yml
     - name: Setup NFS
       ansible.builtin.import_tasks: tasks/nfs.yml
+    - name: Ensure that powertop is installed and enabled
+      ansible.builtin.import_tasks: tasks/powertop.yml

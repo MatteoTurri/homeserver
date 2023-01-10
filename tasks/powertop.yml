@@ -1,0 +1,10 @@
+- name: Ensure that powertop is installed
+  ansible.builtin.apt:
+    name: powertop
+    state: present
+
+- name: Enable and start powertop service
+  ansible.builtin.systemd:
+    name: powertop.service
+    enabled: true
+    state: started
