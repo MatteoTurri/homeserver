@@ -1,0 +1,10 @@
+- name: Ensure that minidlna is installed
+  ansible.builtin.apt:
+    name: minidlna
+    state: present
+
+- name: Enable and start minidlna service
+  ansible.builtin.systemd:
+    name: minidlna.service
+    enabled: true
+    state: started
