@@ -2,34 +2,36 @@ services:
   immich-server:
     container_name: immich_server
     image: ghcr.io/immich-app/immich-server:release
-    command: ["start.sh", "immich"]
+    ports:
+      - "2283:2283"
     volumes:
       - /mnt/data/Pictures/Uploads:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
       - /mnt/data/Pictures:/mnt/import:ro
     env_file:
-      - /opt/immich/db.env
-    ports:
-      - 2283:3001
-    depends_on:
-      - redis
-      - database
+      - db.env
     restart: always
+    depends_on:
+      immich_database:
+        condition: service_healthy
+      immich_redis:
+        condition: service_healthy
 
   immich-microservices:
     container_name: immich_microservices
     image: ghcr.io/immich-app/immich-server:release
-    command: ["start.sh", "microservices"]
     volumes:
       - /mnt/data/Pictures/Uploads:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
       - /mnt/data/Pictures:/mnt/import:ro
     env_file:
-      - /opt/immich/db.env
-    depends_on:
-      - redis
-      - database
+      - db.env
     restart: always
+    depends_on:
+      immich_database:
+        condition: service_healthy
+      immich_redis:
+        condition: service_healthy
 
   immich-machine-learning:
     container_name: immich_machine_learning
@@ -37,23 +39,33 @@ services:
     volumes:
       - /opt/immich/ml-cache:/cache
     env_file:
-      - /opt/immich/db.env
+      - db.env
     restart: always
 
-  redis:
+  immich_redis:
     container_name: immich_redis
     image: redis:6.2-alpine
     restart: always
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
-  database:
+  immich_database:
     container_name: immich_database
-    image: postgres:14-alpine
+    image: tensorchord/pgvecto-rs:pg14-v0.2.0
     env_file:
-      - /opt/immich/db.env
+      - db.env
     volumes:
-      - /opt/immich/pgdata:/var/lib/postgresql/data
+      - immich_postgres:/var/lib/postgresql/data
     restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
 volumes:
-  pgdata:
-  ml-cache:
+  immich_postgres:
+  immich_upload:

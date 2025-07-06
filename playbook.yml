@@ -3,6 +3,9 @@
   hosts: all
   become: true
 
+  vars:
+    server_user: matteo
+
   vars_files:
     - vars/wireguard.yml
     - vars/wireguard_private.yml

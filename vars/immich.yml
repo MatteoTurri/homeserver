@@ -1,1 +1,1 @@
-db_password: "{{ lookup('password', '/dev/null length=32') }}"
+db_password: "{{ lookup('password', 'vars/immich.password length=32') }}"
