@@ -1,0 +1,23 @@
+---
+- name: Create Immich directories
+  become: true
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+  loop:
+    - /opt/immich
+    - /mnt/data/Pictures/Uploads # Ensure the upload dir exists
+
+- name: Create Immich environment file
+  become: true
+  ansible.builtin.template:
+    src: templates/db.env.j2
+    dest: /opt/immich/db.env
+    mode: "0640"
+
+- name: Deploy Immich stack
+  community.docker.docker_compose:
+    project_src: /opt/immich
+    template: "{{ lookup('template', 'templates/immich-compose.yml.j2') | from_yaml }}"
+    state: present

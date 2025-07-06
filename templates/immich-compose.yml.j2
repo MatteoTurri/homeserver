@@ -1,0 +1,59 @@
+services:
+  immich-server:
+    container_name: immich_server
+    image: ghcr.io/immich-app/immich-server:release
+    command: ["start.sh", "immich"]
+    volumes:
+      - /mnt/data/Pictures/Uploads:/usr/src/app/upload
+      - /etc/localtime:/etc/localtime:ro
+      - /mnt/data/Pictures:/mnt/import:ro
+    env_file:
+      - /opt/immich/db.env
+    ports:
+      - 2283:3001
+    depends_on:
+      - redis
+      - database
+    restart: always
+
+  immich-microservices:
+    container_name: immich_microservices
+    image: ghcr.io/immich-app/immich-server:release
+    command: ["start.sh", "microservices"]
+    volumes:
+      - /mnt/data/Pictures/Uploads:/usr/src/app/upload
+      - /etc/localtime:/etc/localtime:ro
+      - /mnt/data/Pictures:/mnt/import:ro
+    env_file:
+      - /opt/immich/db.env
+    depends_on:
+      - redis
+      - database
+    restart: always
+
+  immich-machine-learning:
+    container_name: immich_machine_learning
+    image: ghcr.io/immich-app/immich-machine-learning:release
+    volumes:
+      - /opt/immich/ml-cache:/cache
+    env_file:
+      - /opt/immich/db.env
+    restart: always
+
+  redis:
+    container_name: immich_redis
+    image: redis:6.2-alpine
+    restart: always
+
+  database:
+    container_name: immich_database
+    image: postgres:14-alpine
+    env_file:
+      - /opt/immich/db.env
+    volumes:
+      - /opt/immich/pgdata:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  pgdata:
+  ml-cache:
