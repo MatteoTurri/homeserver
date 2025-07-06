@@ -16,8 +16,13 @@
     dest: /opt/immich/db.env
     mode: "0640"
 
+- name: Create Immich docker-compose file
+  become: true
+  ansible.builtin.template:
+    src: templates/immich-compose.yml.j2
+    dest: /opt/immich/docker-compose.yml
+    mode: "0640"
+
 - name: Deploy Immich stack
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: /opt/immich
-    template: "{{ lookup('template', 'templates/immich-compose.yml.j2') | from_yaml }}"
-    state: present
