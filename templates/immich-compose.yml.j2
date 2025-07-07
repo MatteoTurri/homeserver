@@ -5,9 +5,9 @@ services:
     ports:
       - "2283:2283"
     volumes:
-      - /mnt/data/Pictures/Uploads:/usr/src/app/upload
+      - /mnt/data/Immich:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
-      - /mnt/data/Pictures:/mnt/import:ro
+      - /mnt/data/Pictures:/mnt/import
     env_file:
       - db.env
     restart: always
@@ -21,9 +21,9 @@ services:
     container_name: immich_microservices
     image: ghcr.io/immich-app/immich-server:release
     volumes:
-      - /mnt/data/Pictures/Uploads:/usr/src/app/upload
+      - /mnt/data/Immich:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
-      - /mnt/data/Pictures:/mnt/import:ro
+      - /mnt/data/Pictures:/mnt/import
     env_file:
       - db.env
     restart: always
@@ -68,4 +68,3 @@ services:
 
 volumes:
   immich_postgres:
-  immich_upload:

@@ -2,12 +2,27 @@
 - name: Create Immich directories
   become: true
   ansible.builtin.file:
-    path: "{{ item }}"
+    path: "{{ item.path }}"
+    state: directory
+    mode: "{{ item.mode | default('0755') }}"
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('root') }}"
+  loop:
+    - path: /opt/immich
+    - path: /mnt/data/Immich
+      owner: "{{ server_user }}"
+      group: "{{ server_user }}"
+      mode: "0755"
+
+- name: Ensure correct permissions on Uploads directory
+  become: true
+  ansible.builtin.file:
+    path: /mnt/data/Immich
     state: directory
     mode: "0755"
-  loop:
-    - /opt/immich
-    - /mnt/data/Pictures/Uploads # Ensure the upload dir exists
+    owner: "{{ server_user }}"
+    group: "{{ server_user }}"
+    recurse: true
 
 - name: Create Immich environment file
   become: true
