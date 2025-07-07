@@ -8,3 +8,4 @@ test.sh
 zfsdisk.vdi
 hosts.ini
 vars/wireguard_private.yml
+vars/immich.password
