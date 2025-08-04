@@ -27,16 +27,16 @@
 - name: Create Immich environment file
   become: true
   ansible.builtin.template:
-    src: templates/db.env.j2
-    dest: /opt/immich/db.env
-    mode: "0640"
+    src: templates/immich.env.j2
+    dest: /opt/immich/.env
+    mode: "0644"
 
 - name: Create Immich docker-compose file
   become: true
   ansible.builtin.template:
     src: templates/immich-compose.yml.j2
     dest: /opt/immich/docker-compose.yml
-    mode: "0640"
+    mode: "0644"
 
 - name: Deploy Immich stack
   community.docker.docker_compose_v2:
