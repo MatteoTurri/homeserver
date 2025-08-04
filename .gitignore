@@ -4,6 +4,8 @@ vagrant_ansible_inventory_default
 __pycache__
 *.cache
 *.retry
+.vscode
+.ansible
 test.sh
 zfsdisk.vdi
 hosts.ini
