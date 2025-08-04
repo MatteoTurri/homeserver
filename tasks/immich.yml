@@ -22,7 +22,7 @@
     mode: "0755"
     owner: "{{ server_user }}"
     group: "{{ server_user }}"
-    recurse: true
+    recurse: false
 
 - name: Create Immich environment file
   become: true
