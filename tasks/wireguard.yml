@@ -19,7 +19,6 @@
     name: githubixx.ansible_role_wireguard
   vars:
     wireguard_address: "{{ address_ipv4 }}, {{ address_ipv6 }}"
-    wireguard_port: 51820
     wireguard_postup:
       - iptables -t nat -A POSTROUTING -s "{{ address_range_ipv4 }}" ! -d "{{ address_range_ipv4 }}" -j SNAT --to "{{ lan_address_v4 }}"
       - iptables -I INPUT -p udp --dport "{{ wireguard_port }}" -j ACCEPT
