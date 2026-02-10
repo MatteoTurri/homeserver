@@ -30,3 +30,9 @@
     project_src: /opt/immich
     state: present
     pull: always
+  register: immich_deploy
+
+- name: Prune old Docker images
+  community.docker.docker_prune:
+    images: true
+  when: immich_deploy.changed
