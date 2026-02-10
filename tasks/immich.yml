@@ -17,7 +17,7 @@
   ansible.builtin.template:
     src: templates/immich.env.j2
     dest: /opt/immich/.env
-    mode: "0644"
+    mode: "0600"
 
 - name: Create Immich docker-compose file
   ansible.builtin.template:
