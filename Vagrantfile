@@ -1,6 +1,6 @@
 Vagrant.configure("2") do |config|
 
-  config.vm.box = "ubuntu/jammy64"
+  config.vm.box = "ubuntu/noble64"
   config.vm.network :private_network, ip: "192.168.56.89"
   config.vm.hostname = "server.test"
   config.ssh.insert_key = false
