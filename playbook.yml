@@ -11,6 +11,12 @@
     - vars/wireguard_private.yml
     - vars/immich.yml
 
+  handlers:
+    - name: Restart minidlna
+      ansible.builtin.systemd:
+        name: minidlna.service
+        state: restarted
+
   tasks:
     - name: Ensure that ZFS is set up correctly
       ansible.builtin.import_tasks: tasks/zfs.yml

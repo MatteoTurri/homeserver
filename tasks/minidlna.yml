@@ -3,6 +3,15 @@
     name: minidlna
     state: present
 
+- name: Deploy minidlna configuration
+  ansible.builtin.template:
+    src: templates/minidlna.conf.j2
+    dest: /etc/minidlna.conf
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Restart minidlna
+
 - name: Enable and start minidlna service
   ansible.builtin.systemd:
     name: minidlna.service
