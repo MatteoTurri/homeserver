@@ -17,6 +17,12 @@
         name: minidlna.service
         state: restarted
 
+    - name: Reload systemd and restart rtcwake timer
+      ansible.builtin.systemd:
+        name: rtcwake.timer
+        daemon_reload: true
+        state: restarted
+
   tasks:
     - name: Ensure that ZFS is set up correctly
       ansible.builtin.import_tasks: tasks/zfs.yml

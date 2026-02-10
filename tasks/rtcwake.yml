@@ -13,6 +13,7 @@
   vars:
     rtcwake:
       date: "+10hours30min"
+  notify: Reload systemd and restart rtcwake timer
 
 - name: Install rtcwake timer
   ansible.builtin.template:
@@ -24,9 +25,11 @@
   vars:
     rtcwaketimer:
       hour: "21:30:00"
+  notify: Reload systemd and restart rtcwake timer
 
 - name: Enable and start rtcwake timer
   ansible.builtin.systemd:
     name: rtcwake.timer
+    daemon_reload: true
     enabled: true
     state: started
