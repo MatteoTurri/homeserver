@@ -6,7 +6,7 @@ Vagrant.configure("2") do |config|
   config.ssh.insert_key = false
 
   config.vm.provider "virtualbox" do |v|
-    if not File.exists?("zfsdisk.vdi")
+    if not File.exist?("zfsdisk.vdi")
       v.customize ["createhd",  "--filename", "zfsdisk.vdi", "--size", "512"]
     end
     v.customize ['storageattach', :id,  '--storagectl', 'SCSI', '--port', 2, '--device', 0, '--type', 'hdd', '--medium', "zfsdisk.vdi"]
@@ -15,7 +15,7 @@ Vagrant.configure("2") do |config|
   $script = "
     sudo usermod -u 2005 ubuntu
     sudo groupmod -g 2005 ubuntu
-    sudo apt update && apt -y upgrade && apt -y install zfsutils-linux --no-install-recommends
+    sudo apt update && sudo apt -y upgrade && sudo apt -y install zfsutils-linux --no-install-recommends
     sudo zpool create data -m /mnt/data -o ashift=12 /dev/sdc
     "
   config.vm.provision "shell", inline: $script
