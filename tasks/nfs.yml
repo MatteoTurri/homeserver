@@ -1,4 +1,4 @@
-- name: Setup wireguard
+- name: Setup NFS
   ansible.builtin.import_role:
     name: geerlingguy.nfs
   vars:
