@@ -1,6 +1,5 @@
 ---
 - name: Create Immich directories
-  become: true
   ansible.builtin.file:
     path: "{{ item.path }}"
     state: directory
@@ -14,25 +13,13 @@
       group: "{{ server_user }}"
       mode: "0755"
 
-- name: Ensure correct permissions on Uploads directory
-  become: true
-  ansible.builtin.file:
-    path: /mnt/data/Immich
-    state: directory
-    mode: "0755"
-    owner: "{{ server_user }}"
-    group: "{{ server_user }}"
-    recurse: false
-
 - name: Create Immich environment file
-  become: true
   ansible.builtin.template:
     src: templates/immich.env.j2
     dest: /opt/immich/.env
     mode: "0644"
 
 - name: Create Immich docker-compose file
-  become: true
   ansible.builtin.template:
     src: templates/immich-compose.yml.j2
     dest: /opt/immich/docker-compose.yml
@@ -41,3 +28,4 @@
 - name: Deploy Immich stack
   community.docker.docker_compose_v2:
     project_src: /opt/immich
+    state: present
